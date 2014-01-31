@@ -43,8 +43,8 @@ p.name assert_=== "George"
 
 val cs =   OU("CS",   List(P("Sekharan"), P("Rom"), P("Thiruvathukal")))
 val math = OU("Math", List(P("Jensen"), P("Doty"), P("Giaquinto")))
-val cas = OU("CAS",   List(P("Andress"), P("Andrade"), cs, math ))
-val luc = OU("luc",   List(cas))
+val cas =  OU("CAS",  List(P("Andress"), P("Andrade"), cs, math ))
+val luc =  OU("luc",  List(cas))
 
 /*
  * Now we will define a size function on org charts. If the org chart is
