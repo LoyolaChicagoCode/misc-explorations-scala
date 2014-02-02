@@ -59,3 +59,22 @@ val luc =  OU("luc",  List(cas))
  * detail.)
  */
 
+def size(o: Node): Int = o match {
+  case P(_) => 1
+  case OU(_, children) => children.map(size).sum
+}
+
+size(p) assert_=== 1
+size(cs) assert_=== 3
+size(luc) assert_=== 8
+
+def depth(o: Node): Int = o match {
+  case P(_) => 1
+  case OU(_, children) => ??? // TODO
+}
+
+depth(p) assert_=== 1
+depth(cs) assert_=== 2
+depth(luc) assert_=== 4
+
+// TODO convert these functions into methods
