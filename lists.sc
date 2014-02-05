@@ -1,5 +1,6 @@
 // creation of immutable lists and
 // related kinds of objects
+
 List(1, 2, 3)
 List.apply(1, 2, 3)
 Seq(1, 2, 3)
@@ -14,6 +15,8 @@ val r = for {
 } yield (v, w, v * w)
 
 r(4)
+
+// pattern matching
 
 (4, "asdf", List(1, 2)) match {
   case (x, y, z) => x + y.length + z.sum

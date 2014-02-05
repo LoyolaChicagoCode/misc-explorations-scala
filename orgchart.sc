@@ -1,9 +1,3 @@
-import scalaz.syntax.equal._ // for assert_===
-import scalaz.std.anyVal._   // for assert_=== to work on basic values
-import scalaz.std.list._     // for assert_=== to work on lists
-import scalaz.std.option._   // for assert_=== to work on options
-import scalaz.std.string._   // for assert_=== to work on strings
-
 /*
  * Many functional languages, especially those in the ML family, include
  * algebraic data types (discriminated union types), which can be
@@ -34,18 +28,20 @@ import scalaz.std.string._   // for assert_=== to work on strings
  * F# version at http://laufer.cs.luc.edu/teaching/372/handouts/orgchart
  */
 
+/**
+ * data Node = P { name :: String } | OU { name :: String, children :: (List Node) }
+ */
 sealed trait Node
 case class P(name: String) extends Node
 case class OU(name: String, children: List[Node]) extends Node
 
 val p = P("George")
-p.name assert_=== "George"
+assert { p.name == "George" }
 
 val cs =   OU("CS",   List(P("Sekharan"), P("Rom"), P("Thiruvathukal")))
 val math = OU("Math", List(P("Jensen"), P("Doty"), P("Giaquinto")))
 val cas =  OU("CAS",  List(P("Andress"), P("Andrade"), cs, math ))
 val luc =  OU("luc",  List(cas))
-
 /*
  * Now we will define a size function on org charts. If the org chart is
  * a person, then the size is one. Else we compute the size recursively
@@ -64,17 +60,17 @@ def size(o: Node): Int = o match {
   case OU(_, children) => children.map(size).sum
 }
 
-size(p) assert_=== 1
-size(cs) assert_=== 3
-size(luc) assert_=== 8
+assert { size(p) == 1 }
+assert { size(cs) == 3 }
+assert { size(luc) == 8 }
 
 def depth(o: Node): Int = o match {
   case P(_) => 1
   case OU(_, children) => ??? // TODO
 }
 
-depth(p) assert_=== 1
-depth(cs) assert_=== 2
-depth(luc) assert_=== 4
+assert { depth(p) == 1 }
+assert { depth(cs) == 2 }
+assert { depth(luc) == 4 }
 
 // TODO convert these functions into methods
