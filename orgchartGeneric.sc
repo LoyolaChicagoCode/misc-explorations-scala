@@ -1,7 +1,7 @@
 // TODO genericity...why?
 
 /**
- * data Node a = P { data :: a } | OU { data :: a, children :: (List (Node a)) }
+ * data Node[A] = P(name: String) | OU(name: String, children: List[Node[A]])
  */
 sealed trait Node
 case class P(name: String) extends Node

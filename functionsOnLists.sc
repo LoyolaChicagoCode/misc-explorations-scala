@@ -1,3 +1,9 @@
+/*
+ * data List[A] = Nil | A :: List[A]
+ */
+
+assert { 1 :: 2 :: 3 :: Nil == List(1, 2, 3) }
+
 def reverse[A]: List[A] => List[A] = {
   case Nil => Nil
   case (h :: t) => reverse(t) :+ h
@@ -10,7 +16,7 @@ def reverseAsFold[A](xs: List[A]) =
   xs.foldLeft {
     Nil: List[A]
   } {
-    (ys, x) => x :: ys
+    (ys, x) => x :: ys // same as +:
   }
 
 assert { reverseAsFold(Nil) == Nil }

@@ -29,7 +29,7 @@
  */
 
 /**
- * data Node = P { name :: String } | OU { name :: String, children :: (List Node) }
+ * data Node = P(name: String) | OU(name: String, children: List[Node])
  */
 sealed trait Node
 case class P(name: String) extends Node
