@@ -33,15 +33,15 @@
  */
 sealed trait Node
 case class P(name: String) extends Node
-case class OU(name: String, children: List[Node]) extends Node
+case class OU(name: String, children: Node*) extends Node
 
 val p = P("George")
 assert { p.name == "George" }
 
-val cs =   OU("CS",   List(P("Sekharan"), P("Rom"), P("Thiruvathukal")))
-val math = OU("Math", List(P("Jensen"), P("Doty"), P("Giaquinto")))
-val cas =  OU("CAS",  List(P("Andress"), P("Andrade"), cs, math ))
-val luc =  OU("luc",  List(cas))
+val cs =   OU("CS",   P("Sekharan"), P("Rom"), P("Thiruvathukal"))
+val math = OU("Math", P("Jensen"), P("Doty"), P("Giaquinto"))
+val cas =  OU("CAS",  P("Andress"), P("Andrade"), cs, math )
+val luc =  OU("luc",  cas)
 /*
  * Now we will define a size function on org charts. If the org chart is
  * a person, then the size is one. Else we compute the size recursively
@@ -57,7 +57,7 @@ val luc =  OU("luc",  List(cas))
 
 def size(o: Node): Int = o match {
   case P(_) => 1
-  case OU(_, children) => children.map(size).sum
+  case OU(_, children @ _*) => children.map(size).sum
 }
 
 assert { size(p) == 1 }

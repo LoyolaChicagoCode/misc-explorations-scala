@@ -12,6 +12,6 @@ case class Foo[A](v: A) {
  * when these two methods are present.
  */
 for {
-  v <- Foo(3) // translated to flatMap
-  w <- Foo(v + 5) // translated to Map
+  v <- Foo(3) // translates to flatMap
+  w <- Foo(v + 5) // translates to map
 } yield w

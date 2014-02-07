@@ -42,15 +42,22 @@ val one:    Nat = Cofree((), Succ(zero))
 val two:    Nat = Cofree((), Succ(one))
 val three:  Nat = Cofree((), Succ(two))
 
-// TODO inject into Cofree
-// generalized catamorphism for Cofree
-def cata[S[+_], A, B](g: A => S[B] => B)(s: Cofree[S, A])(implicit S: Functor[S]): B =
-  g(s.head)(s.tail map cata(g))
+/**
+ * generalized catamorphism for Cofree injected into Cofree class
+ * (similar to C# extension methods)
+ */
+implicit class CofreeCata[S[+_], +A](self: Cofree[S, A]) {
+  def cata[B](g: A => S[B] => B)(implicit S: Functor[S]): B =
+    g(self.head)(self.tail map { _ cata g })
+  // TODO paramorphism
+}
 
-cata(toInt)(zero)  assert_=== 0
-cata(toInt)(three) assert_=== 3
+zero.cata(toInt)  assert_=== 0
+three.cata(toInt) assert_=== 3
 
 println("yahoo")
+
+// TODO add anamorphism (corecursion)
 
 // TODO fashion other algebraic examples after this one
 
