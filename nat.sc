@@ -29,3 +29,4 @@ def plus(m: Nat)(n: Nat): Nat = m match {
 }
 
 assert { toInt(plus(two)(three)) == 5 }
+
