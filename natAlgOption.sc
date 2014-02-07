@@ -2,50 +2,37 @@ import scalaz.Cofree
 import scalaz.Functor
 import scalaz.Equal
 import scalaz.std.anyVal._   // for assert_=== to work on basic values
+import scalaz.std.option._   // for Option as Functor instance
 import scalaz.syntax.equal._ // for assert_===
 import scalaz.syntax.functor._ // for map
 
-/**
- * Endofunctor in category Scala types for F-algebra:
- *
- * data NatF[+A] = Zero | Succ(n: A)
- *
- * Note that this is isomorphic to Option, but we are
- * defining it here from scratch for pedagogical reasons
- * as a template for other user-defined F-algebras.
+/*
+ * Using Option as endofunctor in category Scala types for F-algebra:
  */
-sealed trait NatF[+A]
-case object Zero extends NatF[Nothing]
-case class Succ[A](n: A) extends NatF[A]
 
-/**
- * Implicit for setting up NatF as a Functor in scalaz.
- */
-implicit val NatFunctor: Functor[NatF] = new Functor[NatF] {
-  def map[A, B](fa: NatF[A])(f: A => B): NatF[B] = fa match {
-    case Zero    => Zero
-    case Succ(n) => Succ(f(n))
-  }
-}
+type Algebra[S[_], A, B] = A => S[B] => B
+
+
+
 
 /**
  * Algebra for carrier object Int in category Scala types.
  * Note that this is nonrecursive. It
  */
-def toInt: Unit => NatF[Int] => Int = _ => {
-  case Zero    => 0
-  case Succ(n) => n + 1
+def toInt: Algebra[Option, Unit, Int] = _ => {
+  case None    => 0
+  case Some(n) => n + 1
 }
 
 /**
  * Fixed point of NatF (recursive type based on NatF)
  * as carrier object for initial algebra.
  */
-type Nat = Cofree[NatF, Unit]
-val zero:   Nat = Cofree((), Zero)
-val one:    Nat = Cofree((), Succ(zero))
-val two:    Nat = Cofree((), Succ(one))
-val three:  Nat = Cofree((), Succ(two))
+type Nat = Cofree[Option, Unit]
+val zero:   Nat = Cofree((), None)
+val one:    Nat = Cofree((), Some(zero))
+val two:    Nat = Cofree((), Some(one))
+val three:  Nat = Cofree((), Some(two))
 
 /**
  * Catamorphism (generalizeld fold) for Cofree injected into Cofree class
@@ -66,26 +53,34 @@ implicit class CofreeCata[S[+_], +A](self: Cofree[S, A]) {
 zero.cata(toInt)  assert_=== 0
 three.cata(toInt) assert_=== 3
 
+type Coalgebra[S[_], A] = A => S[A]
+
+
 /**
  * Coalgebra for carrier object Int in category Scala types.
  */
-def fromInt(n: Int) = {
+def fromInt: Coalgebra[Option, Int] = (n: Int) => {
   require { n >= 0 }
   if (n == 0)
-    Zero
+    None
   else
-    Succ(n - 1)
+    Some(n - 1)
 }
 
 /**
  * Now we can create instances by unfolding the coalgebra from a starting value.
  */
-Cofree.unfoldC(0)(fromInt)
-Cofree.unfoldC(3)(fromInt)
+Cofree.unfoldC(0)(fromInt).cata(toInt) assert_=== 0
 
 
+
+
+Cofree.unfoldC(3)(fromInt).cata(toInt) assert_=== 3
+
+
+
+
+Cofree.unfoldC(1)(fromInt)
 
 println("yahoo")
-
-// TODO fashion other algebraic examples after this one
 

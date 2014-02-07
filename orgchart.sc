@@ -42,6 +42,7 @@ val cs =   OU("CS",   P("Sekharan"), P("Rom"), P("Thiruvathukal"))
 val math = OU("Math", P("Jensen"), P("Doty"), P("Giaquinto"))
 val cas =  OU("CAS",  P("Andress"), P("Andrade"), cs, math )
 val luc =  OU("luc",  cas)
+
 /*
  * Now we will define a size function on org charts. If the org chart is
  * a person, then the size is one. Else we compute the size recursively
@@ -54,7 +55,6 @@ val luc =  OU("luc",  cas)
  * results. (These functions are discussed in a separate handout in more
  * detail.)
  */
-
 def size(o: Node): Int = o match {
   case P(_) => 1
   case OU(_, children @ _*) => children.map(size).sum
