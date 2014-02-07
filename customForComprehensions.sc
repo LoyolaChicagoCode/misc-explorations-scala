@@ -6,6 +6,7 @@ case class Foo[A](v: A) {
   def map[B](f: A => B) = Foo(f(v))
   def flatMap[B](f: A => Foo[B]) = f(v)
 }
+
 /*
  * Scala uses reflection to support for-comprehensions automatically
  * when these two methods are present.
