@@ -29,6 +29,8 @@
  */
 
 /**
+ * A hierarchical organization chart.
+ *
  * data Node = P(name: String) | OU(name: String, children: List[Node])
  */
 sealed trait Node
@@ -74,3 +76,5 @@ assert { depth(cs) == 2 }
 assert { depth(luc) == 4 }
 
 // TODO convert these functions into methods
+
+println("yahoo")

@@ -17,19 +17,36 @@ case class OU[A](data: A, children: Node[A]*) extends Node[A] {
   }
 }
 
-val p = P("George")
-assert { p.data == "George" }
+val org =
+  OU(("The Outfit", 50),
+    P(("CEO", 140)),
+    P(("Assistant to CEO", 60)),
+    OU(("Retail Dept", 70),
+      P(("Dir of Retail", 120)),
+      P(("Asst Dir of Retail", 90)),
+      P(("Retail Clerk", 50))
+    ),
+    OU(("IT Dept", 130),
+      P(("Dir of IT", 110)),
+      P(("IT Specialist", 85))
+    )
+  )
 
-val cs =   OU("CS",   P("Sekharan"), P("Rom"), P("Thiruvathukal"))
-val math = OU("Math", P("Jensen"), P("Doty"), P("Giaquinto"))
-val cas =  OU("CAS",  P("Andress"), P("Andrade"), cs, math )
-val luc =  OU("luc",  cas)
-
-luc.map(_.length)
+assert { org.map(_._1.length).data == 10 }
 
 for {
-  s <- cs                 // translates to flatMap
-  t <- OU(s, P("Laufer")) // translates to map
-} yield (t)
+  s <- org                // translates to flatMap
+  t <- OU(s, P("Auditor")) // translates to map
+} yield t
 
-// TODO example to illustrate the benefits of genericity
+def incBy(perc: Float)(num: Int): Int = scala.math.round(num.toFloat * (100 + perc) / 100)
+
+val orgAfterRaise = org map { case (name, salary) => (name, incBy(2.5f)(salary)) }
+
+assert { orgAfterRaise.children(0).asInstanceOf[P[(String, Int)]].data._2 == 144 }
+
+val orgSanitized = orgAfterRaise map { _._1 }
+
+assert { orgSanitized.isInstanceOf[Node[String]] }
+
+println("yahoo")
