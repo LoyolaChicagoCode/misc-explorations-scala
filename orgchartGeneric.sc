@@ -35,7 +35,7 @@ val org =
 assert { org.map(_._1.length).data == 10 }
 
 for {
-  s <- org                // translates to flatMap
+  s <- org                 // translates to flatMap
   t <- OU(s, P("Auditor")) // translates to map
 } yield t
 

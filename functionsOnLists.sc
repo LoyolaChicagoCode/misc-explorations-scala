@@ -27,4 +27,18 @@ assert { reverseAsFold((1 to 5).toList) == (5 to 1 by -1).toList }
 
 // TODO foldLeft
 
+def withoutMultiplesOf(n: Int): TraversableOnce[Int] => TraversableOnce[Int] = _ filter { _ % n != 0 }
+
+//primesR []     = []
+//primesR (x:xs) = x : (primesR (withoutMultiplesOf x xs))
+//
+//primesFold :: [Int] -> [Int]
+//primesFold = foldr (\y ys -> y : withoutMultiplesOf y ys) []
+//
+//primesUnfold :: [Int] -> [Int]
+//primesUnfold = unfoldr g where
+//g []     = Nothing
+//g (x:xs) = Just (x, withoutMultiplesOf x xs)
+
+
 println("yahoo")
