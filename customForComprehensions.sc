@@ -26,3 +26,4 @@ val s = Foo(3).flatMap(v =>
 )
 assert { s.v == 8 }
 
+println("■")

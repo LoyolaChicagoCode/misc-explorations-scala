@@ -22,4 +22,4 @@ r(4)
   case (x, y, z) => x + y.length + z.sum
 }
 
-println("done")
+println("■")

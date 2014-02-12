@@ -77,4 +77,4 @@ assert { depth(luc) == 4 }
 
 // TODO convert these functions into methods
 
-println("yahoo")
+println("■")

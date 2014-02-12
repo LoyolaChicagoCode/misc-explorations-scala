@@ -49,4 +49,4 @@ val orgSanitized = orgAfterRaise map { _._1 }
 
 assert { orgSanitized.isInstanceOf[Node[String]] }
 
-println("yahoo")
+println("■")

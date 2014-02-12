@@ -37,4 +37,4 @@ assert { toInt(plus(two)(three)) == 5 }
 // TODO times
 // TODO fromInt
 
-println("yahoo")
+println("■")
