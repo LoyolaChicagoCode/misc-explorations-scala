@@ -2,6 +2,7 @@
  * data Node[A] = P(name: String) | OU(name: String, children: List[Node[A]])
  */
 sealed trait Node[+A] {
+  def data: A
   def map[B](f: A => B): Node[B]
   def flatMap[B](f: A => Node[B]): Node[B]
 }
@@ -33,6 +34,7 @@ val org =
   )
 
 assert { org.map(_._1.length).data == 10 }
+assert { org.map(_._1.length).children(0).data == 3 }
 
 for {
   s <- org                 // translates to flatMap
@@ -43,7 +45,7 @@ def incBy(perc: Float)(num: Int): Int = scala.math.round(num.toFloat * (100 + pe
 
 val orgAfterRaise = org map { case (name, salary) => (name, incBy(2.5f)(salary)) }
 
-assert { orgAfterRaise.children(0).asInstanceOf[P[(String, Int)]].data._2 == 144 }
+assert { orgAfterRaise.children(0).data._2 == 144 }
 
 val orgSanitized = orgAfterRaise map { _._1 }
 

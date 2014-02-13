@@ -33,7 +33,7 @@
  *
  * data Node = P(name: String) | OU(name: String, children: List[Node])
  */
-sealed trait Node
+sealed trait Node{ def name: String }
 case class P(name: String) extends Node
 case class OU(name: String, children: Node*) extends Node
 
