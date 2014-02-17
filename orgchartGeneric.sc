@@ -44,11 +44,9 @@ for {
 def incBy(perc: Float)(num: Int): Int = scala.math.round(num.toFloat * (100 + perc) / 100)
 
 val orgAfterRaise = org map { case (name, salary) => (name, incBy(2.5f)(salary)) }
-
 assert { orgAfterRaise.children(0).data._2 == 144 }
 
 val orgSanitized = orgAfterRaise map { _._1 }
-
 assert { orgSanitized.isInstanceOf[Node[String]] }
 
 println("■")
