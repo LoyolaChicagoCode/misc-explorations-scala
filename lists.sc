@@ -3,11 +3,16 @@
 
 List(1, 2, 3)
 List.apply(1, 2, 3)
-Seq(1, 2, 3)
+
+val xs = Seq(1, 2, 3)
+assert { xs.length == 3 }
+
 1 to 10
-1 until 10
+1 until 11
 
 val m = Map("hello" -> List(1, 2, 3), "world" -> List(4, 5))
+assert { m.get("hello") == Some(List(1, 2, 3)) }
+assert { m.get("hullo") == None }
 
 val r = for {
   v <- 1 to 10
@@ -23,3 +28,4 @@ r(4)
 }
 
 println("■")
+
