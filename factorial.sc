@@ -3,8 +3,28 @@ import scala.util.control.Exception._
 /**
  * Straightforward recursive definition of factorial.
  */
-val fac: Int => Int = n => if (n <= 0) 1 else n * fac(n - 1)
+def fac(n : Int): Int = if (n <= 0) 1 else n * fac(n - 1)
 assert { fac(5) == 120 }
+
+/**
+ * Equivalent definition as a function value.
+ */
+val facVal: Int => Int = n => if (n <= 0) 1 else n * facVal(n - 1)
+assert { facVal(5) == 120 }
+
+/**
+ * This tail-recursive version of `fac` runs in constant space. It
+ * translates directly to a while loop, where the accumulator `acc`
+ * is the value computed so far.
+ *
+ * The annotation ensures that all recursive calls are in tail position,
+ * that is, the last step before a branch of the function returns.
+ * In particular, if we apply this annotation to the `fac` method above,
+ * we will get an error!
+ */
+@scala.annotation.tailrec
+def facAcc(n: Int, acc: Int = 1): Int = if (n <= 0) acc else facAcc(n - 1, acc * n)
+assert { facAcc(5) == 120 }
 
 /**
  * Nonrecursive function whose fixpoint in the first argument is factorial.

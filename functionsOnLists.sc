@@ -35,6 +35,8 @@ def test(rev: List[Int] => List[Int]) = {
   assert { rev((1 to 5).toList) == (5 to 1 by -1).toList }
 }
 
+test { reverse }
+
 def reverseAsFoldLeft[A](xs: List[A]) =
   xs.foldLeft {
     Nil: List[A]
@@ -53,6 +55,17 @@ def reverseAsFoldRight[A](xs: List[A]) =
 
 test { reverseAsFoldRight }
 
+/**
+ * Because it is tail-recursive, this version of `reverse` runs in constant space.
+ */
+@scala.annotation.tailrec
+def reverseAcc[A](xs: List[A], acc: List[A] = Nil): List[A] = xs match {
+  case Nil => acc
+  case (h :: t) => reverseAcc(t, h :: acc)
+}
+
+test { reverseAcc(_) }
+
 /*
  * Up for a challenge? Try implementing these functions yourself and test
  * if they behave like the predefined ones!
@@ -61,5 +74,6 @@ test { reverseAsFoldRight }
 // TODO map
 // TODO mapAsFold
 // TODO foldLeft
+// TODO append
 
 println("■")
