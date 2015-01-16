@@ -9,3 +9,9 @@ val r2 = for {
   y <- Right({ println("world"); 5.5 }).right
 } yield (x, y)
 assert { r2 == Left("bzzt") }
+
+for {
+  z <- Right(7).right
+  x <- Right(5).right
+  y <- Right(6).right
+} println(x + y)
