@@ -42,9 +42,10 @@ m.get("hello") match {
 
 // for comprehension
 val z = for {
+  z <- Seq(5)
   v1 <- m.get("hello")
   v2 <- m.get("hello")
-  v3 <- m.get("hello1")
+  v3 <- m.get("hello")
   v4 <- m.get("hello")
   v5 <- m.get("hello")
   w <- m.get("world")
