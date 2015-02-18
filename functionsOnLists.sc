@@ -39,7 +39,7 @@ test { reverse }
 
 def reverseAsFoldLeft[A](xs: List[A]) =
   xs.foldLeft(Nil: List[A]) {
-    (r, x) => x +: r // same as +:
+    (r, x) => x :: r // same as +:
   }
 
 test { reverseAsFoldLeft }
