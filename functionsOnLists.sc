@@ -38,18 +38,14 @@ def test(rev: List[Int] => List[Int]) = {
 test { reverse }
 
 def reverseAsFoldLeft[A](xs: List[A]) =
-  xs.foldLeft {
-    Nil: List[A]
-  } {
+  xs.foldLeft(Nil: List[A]) {
     (t, h) => h +: t // same as +:
   }
 
 test { reverseAsFoldLeft }
 
 def reverseAsFoldRight[A](xs: List[A]) =
-  xs.foldRight {
-    Nil: List[A]
-  } {
+  xs.foldRight(Nil: List[A]) {
     (h, t) => t :+ h // mirror image of +:
   }
 
