@@ -19,7 +19,7 @@
  *
  * Organizational charts (org charts) are a simple, well understood
  * example of a hierarchical structure. The following example explores
- * how we can represent and work with org charts in F#.
+ * how we can represent and work with org charts in a functional language.
  *
  * In this example, an org chart is either a person (a leaf in the
  * resulting tree) or an organizational unit (an interior node), which
