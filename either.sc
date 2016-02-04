@@ -15,3 +15,5 @@ for {
   x <- Right(5).right
   y <- Right(6).right
 } println(x + y)
+
+println("■")
