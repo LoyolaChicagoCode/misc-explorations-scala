@@ -1,5 +1,5 @@
 /**
- * data Node[A] = P(name: A) | OU(name: A, children: List[Node[A]])
+ * data Node[A] = P(data: A) | OU(data: A, children: List[Node[A]])
  */
 sealed trait Node[+A] {
   def data: A
