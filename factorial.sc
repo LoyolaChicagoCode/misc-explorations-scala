@@ -1,16 +1,9 @@
+import scala.language.postfixOps
 import scala.util.control.Exception._
 
-/**
- * Straightforward recursive definition of factorial.
- */
-def fac(n : Int): Int = if (n <= 0) 1 else n * fac(n - 1)
+/** Straightforward recursive definition of factorial. */
+val fac: Int => Int = n => if (n <= 0) 1 else n * fac(n - 1)
 assert { fac(5) == 120 }
-
-/**
- * Equivalent definition as a function value.
- */
-val facVal: Int => Int = n => if (n <= 0) 1 else n * facVal(n - 1)
-assert { facVal(5) == 120 }
 
 /**
  * This tail-recursive version of `fac` runs in constant space. It
@@ -23,18 +16,22 @@ assert { facVal(5) == 120 }
  * we will get an error!
  */
 @scala.annotation.tailrec
-def facAcc(n: Int, acc: Int = 1): Int = if (n <= 0) acc else facAcc(n - 1, acc * n)
-assert { facAcc(5) == 120 }
+val facAcc: (Int, Int) => Int = { case (n, acc) => if (n <= 0) acc else facAcc(n - 1, acc * n) }
+assert { facAcc(5, 1) == 120 }
 
-/**
- * Nonrecursive function whose fixpoint in the first argument is factorial.
- */
-def preFac(g: Int => Int)(n: Int): Int = if (n <= 0) 1 else n * g(n - 1)
-preFac _: ((Int => Int) => (Int => Int)) // to confirm the type of preFac
+/** Same as above but with guarded pattern matching. */
+@scala.annotation.tailrec
+val facAcc2: (Int, Int) => Int = { 
+  case (n, acc) if n <= 0 => acc
+  case (n, acc)           => facAcc2(n - 1, acc * n)
+}
+assert { facAcc2(5, 1) == 120 }
+
+/** Nonrecursive function whose fixpoint in the first argument is factorial. */
+val preFac: (Int => Int) => (Int => Int) = g => n => if (n <= 0) 1 else n * g(n - 1)
 
 // We can now compute parts of factorial by supplying a sufficiently
 // long chain of nested preFac invocations.
-
 val one = Function.const(1)_
 
 assert { preFac(one)(5)                                                 == 5 }
@@ -47,19 +44,18 @@ assert { preFac(preFac(preFac(preFac(preFac(preFac(one))))))(5)         == 5 * 4
 // It's OK if the chain is longer than necessary.
 assert { preFac(preFac(preFac(preFac(preFac(preFac(preFac(one)))))))(5) == 5 * 4 * 3 * 2 * 1 * 1 }
 
-/**
- * Fixpoint formed using recursion in the language.
- */
-val fac2: Int => Int = preFac(fac2) // n => if (n <= 1) 1 else n * fac2(n - 1)
-assert { fac2(5) == 120 }
+object ctx {
+  /** Fixpoint formed using recursion in the language. */
+  val fac2: Int => Int = preFac(fac2) // n => if (n <= 1) 1 else n * fac2(n - 1)
+  assert { fac2(5) == 120 }
+}
 
-// other attempts fail
+// other attempts at worksheet top-level fail
+val fac3: Int => Int = preFac(fac3) // preFac's first argument g is null
+assert { failing(classOf[NullPointerException]) opt fac3(5) isEmpty }
 
-val fac4: Int => Int = (preFac _)(fac4) // preFac's first argument g is null
-assert { failing(classOf[NullPointerException]) opt fac4(5) isEmpty }
-
-lazy val fac5: Int => Int = (preFac _)(fac5) // StackOverflowError
-assert { catching(classOf[StackOverflowError]) opt fac5(5) isEmpty }
+lazy val fac4: Int => Int = preFac(fac4) // StackOverflowError
+assert { catching(classOf[StackOverflowError]) opt fac4(5) isEmpty }
 
 /**
  * Fixpoint combinator to generalize ad-hoc recursion.
@@ -102,7 +98,7 @@ def Y[A, R]: ((A => R) => (A => R)) => (A => R) = f => n => f(Y(f))(n)
 // forming the fixpoint explicitly using our Y combinator
 assert { Y(preFac)(5) == 120 }
 
-// Example where A and R are different: A = List[B], R = Int.
+/** Example where A and R are different: A = List[B], R = Int. */
 def preLength[B](g: List[B] => Int)(xs: List[B]) = xs match {
   case Nil => 0
   case _ :: ys => 1 + g(ys)
@@ -111,12 +107,9 @@ def preLength[B](g: List[B] => Int)(xs: List[B]) = xs match {
 // need to supply item type for compatibility under left-to-right type inference
 assert { Y(preLength[Int])(List(1, 2, 3, 4, 5)) == 5 }
 
-/*
- * Software engineering benefit of making recursion explicit and separating
- * it from the actual functionality: can inject additional behaviors for
- * each recursive invocation, e.g., call trace:
- */
-
+// Software engineering benefit of making recursion explicit and separating
+// it from the actual functionality: can inject additional behaviors for
+// each recursive invocation, e.g., call trace:
 def trace[A, R](f: A => R)(arg: A): R = {
   println("arg = " + arg)
   val result = f(arg)
@@ -128,6 +121,6 @@ println("call trace for length(List(1, 2, 3, 4, 5))")
 assert { Y(trace[List[Int], Int]_ compose preLength[Int]_)(List(1, 2, 3, 4, 5)) == 5 }
 
 println("call trace for fac(5)")
-assert { Y(trace[Int, Int]_ compose preFac _)(5) == 120 }
+assert { Y(trace[Int, Int]_ compose preFac )(5) == 120 }
 
 println("■")
