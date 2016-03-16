@@ -90,7 +90,7 @@ assert { catching(classOf[StackOverflowError]) opt fac4(5) isEmpty }
  * = 3 * 2 * preFac(Y(preFac))(1)                                            by def of Y
  * = 3 * 2 * 1 * Y(preFac)(0)                                                ...
  * = 3 * 2 * 1 * preFac(Y(preFac))(0)                                        by def of Y
- * = 3 * 2 * 1 * (if (n <= 0) 1 else n * g(n - 1))[g := Y(preFac), n := 1]   by def of preFac
+ * = 3 * 2 * 1 * (if (n <= 0) 1 else n * g(n - 1))[g := Y(preFac), n := 0]   by def of preFac
  * = 3 * 2 * 1 * 1                                                           by def of if
  */
 def Y[A, R]: ((A => R) => (A => R)) => (A => R) = f => n => f(Y(f))(n)
