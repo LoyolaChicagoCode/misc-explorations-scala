@@ -66,14 +66,14 @@ assert { size(p) == 1 }
 assert { size(cs) == 3 }
 assert { size(luc) == 8 }
 
-def depth(o: Node): Int = o match {
+def height(o: Node): Int = o match {
   case P(_) => 1
-  case OU(_, children) => ??? // TODO
+  case OU(_, children @ _*) => ??? // TODO
 }
 
-assert { depth(p) == 1 }
-assert { depth(cs) == 2 }
-assert { depth(luc) == 4 }
+assert { height(p) == 1 }
+assert { height(cs) == 2 }
+assert { height(luc) == 4 }
 
 // TODO convert these functions into methods
 
