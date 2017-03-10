@@ -61,10 +61,10 @@ test { reverseAcc(_) }
 
 def reverseWhile[A](xs: List[A]): List[A] = {
   var acc = List.empty[A]
-  var ys = xs
-  while (ys != Nil) {
-    acc = ys.head :: acc
-    ys = ys.tail
+  var curr = xs
+  while (curr != Nil) {
+    acc = curr.head :: acc // same as acc ::= curr.head
+    curr = curr.tail
   }
   acc
 }
