@@ -59,6 +59,19 @@ def reverseAcc[A](xs: List[A], acc: List[A] = Nil): List[A] = xs match {
 
 test { reverseAcc(_) }
 
+def reverseWhile[A](xs: List[A]): List[A] = {
+  var acc = List.empty[A]
+  var ys = xs
+  while (ys != Nil) {
+    acc = ys.head :: acc
+    ys = ys.tail
+  }
+  acc
+}
+
+test { reverseWhile }
+
+
 // Up for a challenge? Try implementing these functions yourself and test
 // if they behave like the predefined ones!
 
