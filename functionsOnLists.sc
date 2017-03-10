@@ -25,7 +25,7 @@ assert { 1 :: 2 :: 3 :: Nil == List(1, 2, 3) }
 
 def reverse[A]: List[A] => List[A] = {
   case Nil => Nil
-  case (h :: t) => reverse(t) :+ h
+  case h :: t => reverse(t) :+ h
 }
 
 /** DRY */
@@ -54,7 +54,7 @@ test { reverseAsFoldRight }
 @scala.annotation.tailrec
 def reverseAcc[A](xs: List[A], acc: List[A] = Nil): List[A] = xs match {
   case Nil => acc
-  case (h :: t) => reverseAcc(t, h :: acc)
+  case h :: t => reverseAcc(t, h :: acc)
 }
 
 test { reverseAcc(_) }
