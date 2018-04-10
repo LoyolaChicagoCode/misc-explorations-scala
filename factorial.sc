@@ -93,7 +93,7 @@ assert { catching(classOf[StackOverflowError]) opt fac4(5) isEmpty }
  * = 3 * 2 * 1 * (if (n <= 0) 1 else n * g(n - 1))[g := Y(preFac), n := 0]   by def of preFac
  * = 3 * 2 * 1 * 1                                                           by def of if
  */
-def Y[A, R]: ((A => R) => (A => R)) => (A => R) = f => n => f(Y(f))(n)
+def Y[A, R]: ((A => R) => (A => R)) => (A => R) = f => (n => f(Y(f))(n))
 
 // forming the fixpoint explicitly using our Y combinator
 assert { Y(preFac)(5) == 120 }
