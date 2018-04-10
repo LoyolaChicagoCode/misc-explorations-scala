@@ -28,7 +28,7 @@ val facAcc2: (Int, Int) => Int = {
 assert { facAcc2(5, 1) == 120 }
 
 /** Nonrecursive function whose fixpoint in the first argument is factorial. */
-val preFac: (Int => Int) => (Int => Int) = g => n => if (n <= 0) 1 else n * g(n - 1)
+val preFac: (Int => Int) => (Int => Int) = g => (n => if (n <= 0) 1 else n * g(n - 1))
 
 // We can now compute parts of factorial by supplying a sufficiently
 // long chain of nested preFac invocations.
@@ -118,9 +118,9 @@ def trace[A, R](f: A => R)(arg: A): R = {
 }
 
 println("call trace for length(List(1, 2, 3, 4, 5))")
-assert { Y(trace[List[Int], Int]_ compose preLength[Int]_)(List(1, 2, 3, 4, 5)) == 5 }
+assert { Y(trace[List[Int], Int]_ compose preLength[Int])(List(1, 2, 3, 4, 5)) == 5 }
 
 println("call trace for fac(5)")
-assert { Y(trace[Int, Int]_ compose preFac )(5) == 120 }
+assert { Y(trace[Int, Int]_ compose preFac)(5) == 120 }
 
 println("■")
