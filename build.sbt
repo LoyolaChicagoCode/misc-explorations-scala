@@ -2,7 +2,7 @@ name := "misc-explorations-scala"
 
 version := "0.2"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.7"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
