@@ -27,6 +27,18 @@ val facAcc2: (Int, Int) => Int = {
 }
 assert { facAcc2(5, 1) == 120 }
 
+/** Iterative equivalent of `facAcc`. */
+final val facIter: Int => Int = n => {
+  var k = n
+  var acc = 1
+  while (k > 0) {
+    acc = k * acc
+    k = k - 1
+  }
+  acc
+}
+assert { facIter(5) == 120 }
+
 /** Nonrecursive function whose fixpoint in the first argument is factorial. */
 val preFac: (Int => Int) => (Int => Int) = g => (n => if (n <= 0) 1 else n * g(n - 1))
 
