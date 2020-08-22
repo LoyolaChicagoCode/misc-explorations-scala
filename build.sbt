@@ -2,14 +2,14 @@ name := "misc-explorations-scala"
 
 version := "0.2"
 
-scalaVersion := "2.12.9"
+scalaVersion := "2.13.3"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
 libraryDependencies ++= Seq(
-  "org.scalaz"     %% "scalaz-core" % "7.2.26",
-  "org.scalatest"  %% "scalatest"   % "3.0.5"  % Test,
-  "org.scalacheck" %% "scalacheck"  % "1.14.0" % Test
+  "org.scalaz"     %% "scalaz-core" % "7.3.3",
+  "org.scalatest"  %% "scalatest"   % "3.2.1"  % Test,
+  "org.scalacheck" %% "scalacheck"  % "1.14.3" % Test
 )
 
 initialCommands in console := """
