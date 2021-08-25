@@ -4,7 +4,7 @@ version := "0.2"
 
 scalaVersion := "3.0.1"
 
-scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-Yexplicit-nulls")
+scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-Yexplicit-nulls", "-language:strictEquality")
 
 libraryDependencies ++= Seq(
   "org.scalaz"     %% "scalaz-core" % "7.4.0-M8",
