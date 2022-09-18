@@ -12,9 +12,9 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck"  % "1.16.0" % Test
 )
 
-initialCommands in console := """
-                                |import scalaz._
-                                |import Scalaz._
-                                |""".stripMargin
+console / initialCommands := """
+                             |import scalaz._
+                             |import Scalaz._
+                             |""".stripMargin
 
 scalacOptions ++= Seq("-rewrite", "-new-syntax")
