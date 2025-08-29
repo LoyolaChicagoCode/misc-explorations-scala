@@ -2,10 +2,6 @@ name := "misc-explorations-scala"
 
 version := "0.2"
 
-scalaVersion := "3.3.3"
-
-scalacOptions += "@.scalacOptions.txt"
-
 libraryDependencies ++= Seq(
   "org.scalaz"     %% "scalaz-core" % "7.4.0-M14",
   "org.scalatest"  %% "scalatest"   % "3.2.19"    % Test,
@@ -13,6 +9,9 @@ libraryDependencies ++= Seq(
 )
 
 console / initialCommands := """
+
                              |import scalaz._
+
                              |import Scalaz._
+
                              |""".stripMargin
